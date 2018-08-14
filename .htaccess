@@ -1,0 +1,8 @@
+<FilesMatch "^(login|book-edit)\.php$">
+AddDefaultCharset utf-8
+DefaultLanguage ru-ru
+AuthName "Enter the administrator password:"
+AuthType Basic
+AuthUserFile E:\eng\xampp\htdocs\book-store\.htpasswd
+Require valid-user
+</FilesMatch>
