@@ -1,90 +1,10 @@
-CREATE DATABASE IF NOT EXISTS `books_catalog`;
-USE `books_catalog`;
+TRUNCATE TABLE `book_has_author`;
+TRUNCATE TABLE `book_has_genre`;
+TRUNCATE TABLE `author`;
+TRUNCATE TABLE `genre`;
+TRUNCATE TABLE `book`;
 
-CREATE TABLE `author` (
-  `idauthor` int(11) NOT NULL,
-  `fio` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `book` (
-  `idbook` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `price` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `book_has_author` (
-  `book_idbook` int(11) NOT NULL,
-  `author_idauthor` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `book_has_genre` (
-  `book_idbook` int(11) NOT NULL,
-  `genre_idgenre` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `genre` (
-  `idgenre` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `author`
-  ADD PRIMARY KEY (`idauthor`),
-  ADD UNIQUE KEY `fio_UNIQUE` (`fio`);
-
-ALTER TABLE `book`
-  ADD PRIMARY KEY (`idbook`);
-
-ALTER TABLE `book_has_author`
-  ADD PRIMARY KEY (`book_idbook`,`author_idauthor`),
-  ADD KEY `fk_book_has_author_author1_idx` (`author_idauthor`),
-  ADD KEY `fk_book_has_author_book_idx` (`book_idbook`);
-
-ALTER TABLE `book_has_genre`
-  ADD PRIMARY KEY (`book_idbook`,`genre_idgenre`),
-  ADD KEY `fk_book_has_genre_genre1_idx` (`genre_idgenre`);
-
-ALTER TABLE `genre`
-  ADD PRIMARY KEY (`idgenre`),
-  ADD UNIQUE KEY `name_UNIQUE` (`name`);
-
-ALTER TABLE `author`
-  MODIFY `idauthor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
-ALTER TABLE `book`
-  MODIFY `idbook` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
-ALTER TABLE `genre`
-  MODIFY `idgenre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
-ALTER TABLE `book_has_author`
-  ADD CONSTRAINT `fk_book_has_author_author1` FOREIGN KEY (`author_idauthor`) REFERENCES `author` (`idauthor`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_book_has_author_book` FOREIGN KEY (`book_idbook`) REFERENCES `book` (`idbook`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
-ALTER TABLE `book_has_genre`
-  ADD CONSTRAINT `fk_book_has_genre_book1` FOREIGN KEY (`book_idbook`) REFERENCES `book` (`idbook`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_book_has_genre_genre1` FOREIGN KEY (`genre_idgenre`) REFERENCES `genre` (`idgenre`) ON DELETE CASCADE ON UPDATE NO ACTION;
-COMMIT;
-
-INSERT INTO `book_has_author` (`book_idbook`, `author_idauthor`) VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(3, 4),
-(4, 4),
-(5, 4),
-(6, 5),
-(7, 5),
-(8, 5),
-(9, 5),
-(10, 6),
-(10, 7),
-(11, 6),
-(11, 7),
-(12, 6),
-(12, 7),
-(13, 8),
-(14, 9);
 
 INSERT INTO `author` (`idauthor`, `fio`) VALUES
 (6, 'А.Н. Стругацкий'),
@@ -113,6 +33,43 @@ INSERT INTO `book` (`idbook`, `name`, `description`, `price`) VALUES
 (13, 'Работы по металлу', 'Книга знакомит читателя с основами обработки металлов. Эти знания могут понадобиться в работах по дому или в занятиях хобби. Вы узнаете о базовых приемах работ, о том, как безопасно использовать инструменты, как подобрать подходящий металл и правильные крепежные изделия. - Инструменты и рабочее место - Нарезание резьбы, сверление, гибка и резка металла - Формовка и другие работы с листовым металлом - Ковка, плавка и литье - Шлифовка, полировка и другая обработка поверхности ', 570),
 (14, 'Виноград. Практические советы по выращиванию', 'Известный в нашей стране пропагандист принципов природного земледелия Николай Курдюмов расскажет о том, как создать умный виноградник, то есть совместить, насколько это возможно, простоту ухода за ним с прекрасным урожаем. Его советы - лучшее пособие для начинающих, так как даны не ученым-виноградарем, мыслящим промышленными масштабами, а дачником-практиком, прошедшим весь путь создания собственного виноградника с нуля. В книге автор расскажет об опыте таких же, как и он сам, энтузиастов-опытников из разных климатических зон России, с которыми познакомился на почве любви к этой древней культуре. ', 159);
 
+
+INSERT INTO `genre` (`idgenre`, `name`) VALUES
+(8, 'Антиутопия'),
+(9, 'Зарубежная фантастика'),
+(5, 'Мистика'),
+(10, 'Научная фантастика'),
+(12, 'Повесть'),
+(13, 'Прикладная литература'),
+(1, 'Роман'),
+(2, 'Роман-поэма'),
+(15, 'Сад и огород'),
+(3, 'Современная зарубежная проза'),
+(11, 'Современная русская проза'),
+(7, 'Социальная фантастика'),
+(4, 'Ужасы'),
+(6, 'Фэнтези');
+
+INSERT INTO `book_has_author` (`book_idbook`, `author_idauthor`) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 4),
+(4, 4),
+(5, 4),
+(6, 5),
+(7, 5),
+(8, 5),
+(9, 5),
+(10, 6),
+(10, 7),
+(11, 6),
+(11, 7),
+(12, 6),
+(12, 7),
+(13, 8),
+(14, 9);
+
 INSERT INTO `book_has_genre` (`book_idbook`, `genre_idgenre`) VALUES
 (1, 1),
 (2, 2),
@@ -140,19 +97,3 @@ INSERT INTO `book_has_genre` (`book_idbook`, `genre_idgenre`) VALUES
 (12, 12),
 (13, 13),
 (14, 15);
-
-INSERT INTO `genre` (`idgenre`, `name`) VALUES
-(8, 'Антиутопия'),
-(9, 'Зарубежная фантастика'),
-(5, 'Мистика'),
-(10, 'Научная фантастика'),
-(12, 'Повесть'),
-(13, 'Прикладная литература'),
-(1, 'Роман'),
-(2, 'Роман-поэма'),
-(15, 'Сад и огород'),
-(3, 'Современная зарубежная проза'),
-(11, 'Современная русская проза'),
-(7, 'Социальная фантастика'),
-(4, 'Ужасы'),
-(6, 'Фэнтези');
